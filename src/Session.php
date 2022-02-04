@@ -62,6 +62,16 @@ class Session extends Manager
         return new Store($this->getConfig('name') ?: 'PHPSESSID', $handler, $this->getConfig('serialize'));
     }
 
+    protected function createCacheDriver(array $params)
+    {
+        $class = $this->resolveClass('cache');
+        $cache = $this->container->invokeClass('Think\Component\Cache\Cache');
+        $cache->setConfig([
+            'path' => $this->config['path'] ?? ''
+        ]);
+        return $this->container->invokeClass($class, [$cache, $params]);
+    }
+
     /**
      * 获取Session配置
      * @access public
