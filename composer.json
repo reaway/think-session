@@ -17,6 +17,7 @@
     "ext-zlib": "*",
     "psr/simple-cache": "^1.0",
     "reaway/think-manager": "^1.0",
+    "reaway/think-cache": "^1.0",
     "reaway/think-facade": "^1.0"
   },
   "autoload": {
