@@ -17,7 +17,6 @@ use Exception;
 use FilesystemIterator;
 use Generator;
 use SplFileInfo;
-use think\App;
 use Think\Component\Session\Contract\SessionHandlerInterface;
 
 /**
@@ -34,13 +33,11 @@ class File implements SessionHandlerInterface
         'gc_divisor'     => 100,
     ];
 
-    public function __construct(App $app, array $config = [])
+    public function __construct(array $config = [])
     {
         $this->config = array_merge($this->config, $config);
 
-        if (empty($this->config['path'])) {
-            $this->config['path'] = $app->getRuntimePath() . 'session' . DIRECTORY_SEPARATOR;
-        } elseif (substr($this->config['path'], -1) != DIRECTORY_SEPARATOR) {
+        if (substr($this->config['path'], -1) != DIRECTORY_SEPARATOR) {
             $this->config['path'] .= DIRECTORY_SEPARATOR;
         }
 
