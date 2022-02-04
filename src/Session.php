@@ -25,6 +25,36 @@ class Session extends Manager
 {
     protected $namespace = '\\Think\\Component\\Session\\Driver\\';
 
+    /**
+     * 配置参数
+     * @var array
+     */
+    protected $config = [
+        // session name
+        'name'           => 'PHPSESSID',
+        // SESSION_ID的提交变量,解决flash上传跨域
+        'var_session_id' => '',
+        // 驱动方式 支持file cache
+        'type'           => 'file',
+        // 存储连接标识 当type使用cache的时候有效
+        'store'          => null,
+        // 过期时间
+        'expire'         => 1440,
+        // 前缀
+        'prefix'         => '',
+    ];
+
+    /**
+     * 设置配置
+     * @access public
+     * @param array $config 配置参数
+     * @return void
+     */
+    public function setConfig(array $config): void
+    {
+        $this->config = array_merge($this->config, $config);
+    }
+
     protected function createDriver(string $name)
     {
         $handler = parent::createDriver($name);
@@ -42,15 +72,15 @@ class Session extends Manager
     public function getConfig(string $name = null, $default = null)
     {
         if (!is_null($name)) {
-            return $this->app->config->get('session.' . $name, $default);
+            return $this->config[$name] ?? $default;
         }
 
-        return $this->app->config->get('session');
+        return $this->config;
     }
 
     protected function resolveConfig(string $name)
     {
-        $config = $this->app->config->get('session', []);
+        $config = $this->getConfig();
         Arr::forget($config, 'type');
         return $config;
     }
@@ -61,6 +91,6 @@ class Session extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->app->config->get('session.type', 'file');
+        return $this->getConfig('type', 'file');
     }
 }
