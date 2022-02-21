@@ -39,6 +39,9 @@ var_dump(Session::all());
 ```
 
 cache驱动方式
+```bash
+composer require reaway/think-cache
+```
 ```php
 use Think\Component\Session\Facade\Session;
 use Think\Component\Cache\Facade\Cache;
